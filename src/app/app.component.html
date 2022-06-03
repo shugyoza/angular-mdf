@@ -1,0 +1,68 @@
+<!-- We need to associate our model to the Template, tell
+Angular that we have a model for the form, using formGroup directive.
+Use the [] onw way binding and set to equal the model. -->
+<form [formGroup]="contactForm">
+
+  <!-- Next, bind form fields to the FormControl models, using
+  FormControlName directive. -->
+  <p>
+    <label for="firstName">First Name</label>
+    <input type="text" id="firstName" name="firstName" formControlName="firstName">
+  </p>
+
+  <p>
+    <label for="lastName">Last Name</label>
+    <input type="text" id="lastName" name="lastName" formControlName="lastName">
+  </p>
+
+  <p>
+    <label for="email">Email</label>
+    <input type="text" id="email" name="email" formControlName="email">
+  </p>
+
+  <p>
+    <label for="gender">Gender</label>
+    <input type="radio" value="male" id="gender" name="gender" formControlName="gender"> Male
+    <input type="radio" value="female" id="gender" name="gender" formControlName="gender"> Female
+  </p>
+
+  <p>
+    <label for="isMarried">Married</label>
+    <input type="checkbox" id="isMarried" name="isMarried" formControlName="isMarried">
+  </p>
+
+  <!-- <p>
+    <label for="country">Country</label>
+    <select id="country" name="country" formControlName="country">
+      <option [ngValue]="c.id" *ngFor="let c of countryList">
+        {{c.name}}
+      </option>
+    </select>
+  </p> -->
+
+  <div formGroupName="address">
+
+    <div class="form-group">
+      <label for="city">City</label>
+      <input type="text" class="form-control" name="city" formControlName="city">
+    </div>
+
+    <div class="form-group">
+      <label for="street">Street</label>
+      <input type="text" class="form-control" name="street" formControlName="street">
+    </div>
+
+    <div class="form-group">
+      <label for="pinCode">Pin Code</label>
+      <input type="text" class="form-control" name="pinCode" formControlName="pinCode">
+    </div>
+
+
+  </div>
+
+
+  <p>
+    <button type="submit" (click)="onSubmit()">Submit</button>
+  </p>
+
+</form>
