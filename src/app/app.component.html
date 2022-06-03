@@ -1,24 +1,65 @@
 <!-- We need to associate our model to the Template, tell
 Angular that we have a model for the form, using formGroup directive.
 Use the [] onw way binding and set to equal the model. -->
-<form [formGroup]="contactForm">
+<form
+style="float: right; width: 50%;"
+[formGroup]="contactForm"
+(ngSubmit)="onSubmit()"
+novalidate>
 
   <!-- Next, bind form fields to the FormControl models, using
   FormControlName directive. -->
+
   <p>
     <label for="firstName">First Name</label>
     <input type="text" id="firstName" name="firstName" formControlName="firstName">
   </p>
+
+  <!-- error message for firstName input -->
+  <div *ngIf="!firstName?.valid && (firstName?.dirty || firstName?.touched)">
+    <div [hidden]="!firstName.errors.required">
+      First Name is required
+    </div>
+    <div [hidden]="!firstName.error.minlength">
+      Min Length is 10
+    </div>
+  </div>
+
 
   <p>
     <label for="lastName">Last Name</label>
     <input type="text" id="lastName" name="lastName" formControlName="lastName">
   </p>
 
+  <!-- error message for lastName input -->
+  <div *ngIf="!lastName.valid && (lastName?.dirty || lastName?.touched)">
+    <div [hidden]="!lastName.errors.pattern">
+      Only characters are allowed
+    </div>
+    <div [hidden]="!lastName.errors.maxlength">
+      Max length allowed is {{ lastName.errors.maxlength?.requiredLength }}
+    </div>
+    <div [hidden]="!lastName.errors.required">
+      Last Name is required
+    </div>
+  </div>
+
+
   <p>
     <label for="email">Email</label>
     <input type="text" id="email" name="email" formControlName="email">
   </p>
+
+  <!-- error message for email input -->
+  <div *ngIf="!email.valid && (email.dirty || email.touched)">
+    <div [hidden]="!email.errors.required">
+      Email is required
+    </div>
+    <div [hidden]="!email.errors.email">
+      Invalid email id
+    </div>
+  </div>
+
 
   <p>
     <label for="gender">Gender</label>
@@ -26,19 +67,43 @@ Use the [] onw way binding and set to equal the model. -->
     <input type="radio" value="female" id="gender" name="gender" formControlName="gender"> Female
   </p>
 
+  <!-- errors for gender input -->
+  <div *ngIf="!gender.valid && (gender.dirty || gender.touhed)">
+    <div [hidden]="!gender.errors.required">
+      Gender is required
+    </div>
+  </div>
+
+
   <p>
     <label for="isMarried">Married</label>
     <input type="checkbox" id="isMarried" name="isMarried" formControlName="isMarried">
   </p>
 
-  <!-- <p>
+  <!-- errors for isMarried input -->
+  <div *ngIf="!isMarried.valid && (isMarried.dirty || isMarried.touched)">
+    <div [hidden]="!isMarried.errors.required">
+      isMarried is required
+    </div>
+  </div>
+
+
+  <p>
     <label for="country">Country</label>
     <select id="country" name="country" formControlName="country">
       <option [ngValue]="c.id" *ngFor="let c of countryList">
         {{c.name}}
       </option>
     </select>
-  </p> -->
+  </p>
+
+  <!-- error message for country input -->
+  <div *ngIf="!country.valid && (country.dirty || country.touched)">
+    <div [hidden]="!country.errors.required">
+      Country is required
+    </div>
+  </div>
+
 
   <div formGroupName="address">
 
@@ -47,22 +112,81 @@ Use the [] onw way binding and set to equal the model. -->
       <input type="text" class="form-control" name="city" formControlName="city">
     </div>
 
+    <!-- error message for city input -->
+    <div *ngIf="!city.valid && (city.dirty || city.touched)">
+      <div [hidden]="!city.errors.required">
+        City is required
+      </div>
+    </div>
+
+
     <div class="form-group">
       <label for="street">Street</label>
       <input type="text" class="form-control" name="street" formControlName="street">
     </div>
+
+    <!-- error message for street input -->
+    <div *ngIf="!street.valid && (street.dirty || street.touched)" >
+      <div [hidden]="!street.errors.required">
+        Street is required
+      </div>
+    </div>
+
 
     <div class="form-group">
       <label for="pinCode">Pin Code</label>
       <input type="text" class="form-control" name="pinCode" formControlName="pinCode">
     </div>
 
+    <!-- error message for pinCode -->
+    <div *ngIf="!pinCode.valid && (pinCode.dirty || pinCode.touched)">
+      <div [hidden]="!pinCode.errors.required">
+        Pin Code is required
+      </div>
+    </div>
 
+  <!-- closing div for the formfroup address -->
   </div>
 
 
   <p>
-    <button type="submit" (click)="onSubmit()">Submit</button>
+    <!-- <button type="submit" (click)="onSubmit()">Submit</button> -->
+    <!-- submit button with validation as follows: -->
+    <button type="submit" [disabled]="!contactForm.valid">Submit</button>
   </p>
 
 </form>
+
+<div style="float: right; width: 50%;">
+
+  <h3>Form Status</h3>
+  <ul>
+    <li>
+      <strong>.valid : </strong> {{contactForm.valid}}
+    </li>
+    <li>
+      <strong>.invalid : </strong> {{contactForm.invalid}}
+    </li>
+    <li>
+      <strong>.touched : </strong> {{contactForm.touched}}
+    </li>
+    <li>
+      <strong>.untouched : </strong> {{contactForm.untouched}}
+    </li>
+    <li>
+      <strong>.pristine : </strong> {{contactForm.pristine}}
+    </li>
+    <li>
+      <strong>.dirty : </strong> {{contactForm.dirty}}
+    </li>
+    <li>
+      <strong>.disabled : </strong> {{contactForm.disabled}}
+    </li>
+    <li>
+      <strong>.enabled : </strong> {{contactForm.enabled}}
+    </li>
+  </ul>
+
+  <h3>Form Value</h3>
+  {{contactForm.value | json}}
+</div>

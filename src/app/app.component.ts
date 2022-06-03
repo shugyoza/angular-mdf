@@ -36,7 +36,8 @@ export class AppComponent {
       email: ['', [Validators.required, Validators.email]],
       gender: ['', [Validators.required]],
       isMarried: ['', [Validators.required]],
-      address: this.formBuilder.group({
+      country: ['', [Validators.required]]
+,      address: this.formBuilder.group({
         city: ['', [Validators.required]],
         street: ['', [Validators.required]],
         pinCode: ['', [Validators.required]]
